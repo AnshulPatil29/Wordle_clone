@@ -1,8 +1,6 @@
 import { realDictionary } from "./dictionary.js";
 const dictionary=realDictionary;
 const dict_correct={0:"Genius",1:"Magnificent",2:"Impressive",3:"Splendid",4:"Great",5:"Phew"};
-//////////////////////////////////
-
 function frequency_counter(word) {
     let freq_array = Array(26).fill(0);
     for (let i = 0; i < 5; i++) {
@@ -202,13 +200,11 @@ function registerKeyboardEvents() {
         }
     };
 }
-
 function startup() {
     const game = document.getElementById('game');
     drawGrid(game);
     registerKeyboardEvents();
 }
-
 function reset(){
     const game = document.getElementById('game');
     message.innerHTML = `The word was ${state.secret}`;
@@ -227,9 +223,6 @@ function reset(){
     console.log(state.secret);
     drawGrid(game);
     registerKeyboardEvents();
-    
 }
-
 startup();
-
 window.reset=reset;
