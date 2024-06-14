@@ -10,7 +10,7 @@ body {
   --right: #538d4e;
 }
 #retry {
-  display: flex;
+  display: none;
   background: var(--right);
   justify-content: center;
   color: black;
