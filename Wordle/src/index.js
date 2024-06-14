@@ -140,15 +140,18 @@ function revealWord(guess) {
 
     setTimeout(() => {
         const message = document.getElementById('message');
+        const button=document.getElementById('retry');
         if (state.secret === guess) {
             message.innerHTML =dict_correct[state.currRow-1];
             message.classList.add('display');
+            button.style.display="flex";
+            button.innerHTML="Play again";
             state.running=false;
         } else if (state.currRow === state.maxRow) {
             message.innerHTML = `The word was ${state.secret}`;
             message.classList.add('display');
-            const button=document.getElementById('retry');
             button.style.display="flex";
+            button.innerHTML="Retry?";
         }
     }, 3 * animation_duration);
 }
@@ -231,5 +234,7 @@ function reset(){
     registerKeyboardEvents();
     
 }
+
 startup();
+
 window.reset=reset;
