@@ -1,6 +1,8 @@
 import { realDictionary } from "./dictionary.js";
 const dictionary=realDictionary;
 const dict_correct={0:"Genius",1:"Magnificent",2:"Impressive",3:"Splendid",4:"Great",5:"Phew"};
+//////////////////////////////////
+
 function frequency_counter(word) {
     let freq_array = Array(26).fill(0);
     for (let i = 0; i < 5; i++) {
@@ -9,6 +11,7 @@ function frequency_counter(word) {
     return freq_array;
 }
 
+//state stores the current state of the game, along with certain useful flags
 const state = {
     secret: dictionary[Math.floor(Math.random() * dictionary.length)],
     grid: Array(6).fill().map(() => Array(5).fill('')),
@@ -30,7 +33,7 @@ function updateGrid() {
     }
 }
 
-
+//created this function to handle the issue which occurs where the plop animation is still part of the box when updating it upon pressing enter on a valid word
 function updateGrid_2() {
     for (let i = state.currRow; i < state.maxRow; i++) {
         for (let j = 0; j < 5; j++) {
@@ -54,13 +57,11 @@ function drawBox(container, row, col, letter = '') {
 function drawGrid(container) {
     const grid = document.createElement('div');
     grid.className = 'grid';
-
     for (let i = 0; i < state.maxRow; i++) {
         for (let j = 0; j < 5; j++) {
             drawBox(grid, i, j);
         }
     }
-
     container.appendChild(grid);
 }
 
@@ -150,7 +151,7 @@ function revealWord(guess) {
     }, 3 * animation_duration);
 }
 
-
+//adds the jiggle animation when the word is not accepted
 function incorrect_animate(text){
     const message=document.getElementById('message');
     message.innerHTML =text;
@@ -183,28 +184,30 @@ function registerKeyboardEvents() {
             updateGrid();
         }
         if (key === 'Enter') {
-            if (state.currCol === 5) {
-                const word = getCurrentWord();
-                if (isValidWord(word)) {
-                    revealWord(word);
-                    state.currRow++;
-                    state.currCol = 0;
-                } else 
-                {
-                    incorrect_animate("Not a valid word");
-                }
-            } 
-            else {
+            if (state.currCol !== 5) 
+            {
                 incorrect_animate("Not enough letters");
+                return;
             }
+            const word = getCurrentWord();
+            if(!isValidWord(word))
+            {
+                incorrect_animate("Not a valid word");
+                return;
+            }
+            revealWord(word);
+            state.currRow++;
+            state.currCol = 0;
         }
     };
 }
+
 function startup() {
     const game = document.getElementById('game');
     drawGrid(game);
     registerKeyboardEvents();
 }
+
 function reset(){
     const game = document.getElementById('game');
     message.innerHTML = `The word was ${state.secret}`;
@@ -212,8 +215,8 @@ function reset(){
     setTimeout(() => {
         message.classList.remove('display');
     }, 2000);
-    game.innerHTML='';
-    state.secret= dictionary[Math.floor(Math.random() * dictionary.length)];
+    game.innerHTML=''; //deletes the entire game
+    state.secret= dictionary[Math.floor(Math.random() * dictionary.length)]; //resetting the entire game state
     state.grid= Array(6).fill().map(() => Array(5).fill(''));
     state.currRow= 0;
     state.currCol= 0;
@@ -223,6 +226,7 @@ function reset(){
     console.log(state.secret);
     drawGrid(game);
     registerKeyboardEvents();
+    
 }
 startup();
 window.reset=reset;
