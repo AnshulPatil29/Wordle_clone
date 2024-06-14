@@ -147,6 +147,8 @@ function revealWord(guess) {
         } else if (state.currRow === state.maxRow) {
             message.innerHTML = `The word was ${state.secret}`;
             message.classList.add('display');
+            const button=document.getElementById('retry');
+            button.style.display="flex";
         }
     }, 3 * animation_duration);
 }
@@ -225,6 +227,7 @@ function reset(){
     state.running= true;
     console.log(state.secret);
     drawGrid(game);
+    document.getElementById("retry").style.display="none";
     registerKeyboardEvents();
     
 }
