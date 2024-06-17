@@ -5,6 +5,8 @@
 *  Edit the paths for stylesheet and script in index.html if needed.
 *  A live server is required to run the code since it imports realDictionary from dictionary.js into index.js. I used the live server extension on VScode.
 *  If using vscode, right click on index.html and click run with live server. It should launch the site on the default browser of the system.
+#### Issues
+* The spacing between the grid and the buttons below it is large due to me using align-items start which although does get the desired effect of the grid spacing being correct, leaves a huge gap below it created by the margins of the individual boxes themselves and I have no idea how to fix it at the current moment. It may require having to change how the grid is drawn but since it does not affect functionality, I will leave it as is it. 
 #### Note
 This is my first project using the JS,CSS and HTML, which is why I am positive the code can be improved vastly. Referenced multiple tutorials for making wordle clones but implemented the word matching logic and animations by myself.
 #### Future implementations (not required)
