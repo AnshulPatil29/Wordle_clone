@@ -177,7 +177,7 @@ function revealWord(guess) {
         if (state.secret === guess) {
             message.innerHTML =dict_correct[state.currRow-1];
             message.classList.add('display');
-            button.style.display="flex";
+            button.style.visibility="visible";
             button.innerHTML="Play again";
             state.running=false;
             //updating stats
@@ -194,7 +194,7 @@ function revealWord(guess) {
         } else if (state.currRow === state.maxRow) {
             message.innerHTML = `The word was ${state.secret}`;
             message.classList.add('display');
-            button.style.display="flex";
+            button.style.visibility="visible";
             button.innerHTML="Retry?";
             user.gamesPlayed++;
             user.mean=(user.score/user.gamesPlayed);
@@ -286,7 +286,7 @@ function reset(){
     state.running= true;
     console.log(state.secret);
     drawGrid(game);
-    document.getElementById("retry").style.display="none";
+    document.getElementById("retry").style.visibility="hidden";
     registerKeyboardEvents();
     
 }
