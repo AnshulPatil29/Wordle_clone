@@ -24,6 +24,14 @@ const state = {
 state.secret_count = frequency_counter(state.secret);
 console.log(state.secret);
 
+const user ={
+    score:0,
+    gamesPlayed:0,
+    winRounds:Array(6).fill(0),
+    mean:0,
+    visible: false
+}
+
 function updateGrid() {
     for (let i = state.currRow; i < state.maxRow; i++) {
         for (let j = 0; j < 5; j++) {
@@ -96,7 +104,31 @@ function removeLetter() {
     box.classList.remove('plop');
     state.currCol--;
 }
-
+function updateStats(){
+    document.getElementById("gamesPlayed").innerHTML=user.gamesPlayed;
+    document.getElementById("score").innerHTML=user.score;
+    document.getElementById("average").innerHTML=user.mean.toFixed(2);
+}
+function setCookies(){
+    document.cookie="score="+user.score;
+    document.cookie="played="+user.gamesPlayed;
+}
+function getCookies(){
+    const cookies=document.cookie.split(';');
+    user.gamesPlayed=Number(cookies[1].substring(cookies[1].indexOf('=')+1));
+    user.score=Number(cookies[0].substring(cookies[0].indexOf('=')+1));
+    user.mean=user.score/user.gamesPlayed;
+    updateStats();
+}
+function expireCookies(){
+    document.cookie="score="+user.score+";expires=Thu, 18 Dec 2013 12:00:00 UTC";
+    document.cookie="played="+user.gamesPlayed+";expires=Thu, 18 Dec 2013 12:00:00 UTC";
+    user.score=0;
+    user.gamesPlayed=0;
+    user.winRounds=Array(6).fill(0);
+    user.mean=0;
+    updateStats();
+}
 function revealWord(guess) {
     let secret_freq = state.secret_count.slice();
     const row = state.currRow;
@@ -147,11 +179,26 @@ function revealWord(guess) {
             button.style.display="flex";
             button.innerHTML="Play again";
             state.running=false;
+            //updating stats
+            user.gamesPlayed++;
+            user.score+=state.maxRow-state.currRow+1;
+            user.winRounds[state.currRow-1]++;
+            user.mean=user.score/user.gamesPlayed;
+            updateStats();
+            setCookies();
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }});
         } else if (state.currRow === state.maxRow) {
             message.innerHTML = `The word was ${state.secret}`;
             message.classList.add('display');
             button.style.display="flex";
             button.innerHTML="Retry?";
+            user.gamesPlayed++;
+            user.mean=(user.score/user.gamesPlayed);
+            updateStats();
+            setCookies();
         }
     }, 3 * animation_duration);
 }
@@ -176,6 +223,8 @@ function incorrect_animate(text){
         message.classList.remove('display');
     }, 2000);
 }
+
+
 
 function registerKeyboardEvents() {
     document.body.onkeydown = (e) => {
@@ -207,9 +256,13 @@ function registerKeyboardEvents() {
     };
 }
 
+
 function startup() {
     const game = document.getElementById('game');
     drawGrid(game);
+    if(document.cookie!==''){
+        getCookies();
+    }
     registerKeyboardEvents();
 }
 
@@ -234,7 +287,26 @@ function reset(){
     registerKeyboardEvents();
     
 }
+function toggleStats(){
+    const container_stats=document.getElementById("container");
+    if(user.visible){
+        user.visible=false;
+
+        setTimeout(()=>{
+            container_stats.classList.add("close");
+            container_stats.classList.remove("open");
+        },500);
+    }
+    else{
+        user.visible=true;
+        setTimeout(()=>{
+            container_stats.classList.add("open");
+            container_stats.classList.remove("close");
+        },500);
+    }
+}   
 
 startup();
-
 window.reset=reset;
+window.toggleStats=toggleStats;
+window.expireCookies=expireCookies;
