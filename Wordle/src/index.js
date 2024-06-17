@@ -200,9 +200,13 @@ function revealWord(guess) {
             user.mean=(user.score/user.gamesPlayed);
             updateStats();
             setCookies();
+            state.running=true;
+            registerKeyboardEvents();
         }
+        else{
         state.running=true;
         registerKeyboardEvents();
+        }
     }, 3 * animation_duration);
 }
 
@@ -246,7 +250,7 @@ function registerKeyboardEvents() {
                 incorrect_animate("Not enough letters");
                 return;
             }
-            const word = getCurrentWord();
+            let word = getCurrentWord();
             if(!isValidWord(word))
             {
                 incorrect_animate("Not a valid word");
