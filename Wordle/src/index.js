@@ -145,7 +145,7 @@ function revealWord(guess) {
             secret_freq[letter.codePointAt() - 97] -= 1;
         }
     }
-
+    state.running=false;
     for (let i = 0; i < 5; i++) {
         const box = document.getElementById(`box${row}${i}`);
         const letter = box.textContent;
@@ -201,6 +201,8 @@ function revealWord(guess) {
             updateStats();
             setCookies();
         }
+        state.running=true;
+        registerKeyboardEvents();
     }, 3 * animation_duration);
 }
 
