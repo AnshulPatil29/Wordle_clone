@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle</title>
-    <link rel="stylesheet" href="/Personal/Wordle/src/style.css" />
-    <link rel="icon" href="https://www.nytimes.com/games-assets/v2/assets/wordle/wordle_logo_32x32.png">
+    <link rel="stylesheet" href="/Wordle/src/style.css" />
+    <link rel="icon" href="C:\Users\admin\Documents\Programming\Projects_completed\Wordle\assets\wordle_logo.png">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </head>
 <body>
     <div id="message"></div>
     <div id="game" ></div>
-    <script type="module" src="/Personal/Wordle/src/index.js">
-    </script>
+    <script type="module" src="/Wordle/src/index.js"></script>
+    <button id="retry" onclick="reset()">Retry?</button>
         <button id="statToggle" onclick="toggleStats()">Score</button>
         <div id="container">
             <div id="stats">
@@ -22,7 +22,6 @@
                 <p>Average: <span id="average">0</span></p>
             </div>
         </div>
-    <button id="retry" onclick="reset()">Retry?</button>
     <button id="expirecookies" onclick="expireCookies()">reset scoreboard</button>
 </body>
 </html>
