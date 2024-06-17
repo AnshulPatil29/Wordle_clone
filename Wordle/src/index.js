@@ -1,5 +1,6 @@
-import { realDictionary } from "./dictionary.js";
-const dictionary=realDictionary;
+import { answer_list,acceptable_answers } from "./dictionary.js";
+const secret_dict=answer_list;
+const allowed_words=acceptable_answers.concat(secret_dict);
 const dict_correct={0:"Genius",1:"Magnificent",2:"Impressive",3:"Splendid",4:"Great",5:"Phew"};
 //////////////////////////////////
 
@@ -13,7 +14,7 @@ function frequency_counter(word) {
 
 //state stores the current state of the game, along with certain useful flags
 const state = {
-    secret: dictionary[Math.floor(Math.random() * dictionary.length)],
+    secret: secret_dict[Math.floor(Math.random() * secret_dict.length)],
     grid: Array(6).fill().map(() => Array(5).fill('')),
     currRow: 0,
     currCol: 0,
@@ -83,7 +84,7 @@ function getCurrentWord() {
 }
 
 function isValidWord(word) {
-    return dictionary.includes(word);
+    return allowed_words.includes(word);
 }
 
 function addLetter(letter) {
@@ -274,7 +275,7 @@ function reset(){
         message.classList.remove('display');
     }, 2000);
     game.innerHTML=''; //deletes the entire game
-    state.secret= dictionary[Math.floor(Math.random() * dictionary.length)]; //resetting the entire game state
+    state.secret= secret_dict[Math.floor(Math.random() * secret_dict.length)]; //resetting the entire game state
     state.grid= Array(6).fill().map(() => Array(5).fill(''));
     state.currRow= 0;
     state.currCol= 0;
